@@ -1,4 +1,12 @@
-export default function Bpo() {
+import { useEffect } from 'react';
+
+export default function Bpo({ hideHero = false }) {
+  useEffect(() => {
+    if (!hideHero) {
+      document.title = 'Global BPO & Enabled Services | GMMC';
+      window.scrollTo(0, 0);
+    }
+  }, [hideHero]);
   const offerings = [
     {
       title: 'Customer Experience & Helpdesk (CX)',
@@ -49,15 +57,17 @@ export default function Bpo() {
   return (
     <div className="bpo-page">
       {/* Page Hero (Dark Digital Block) */}
-      <section className="subpage-hero">
-        <div className="container">
-          <span className="section-tag">Operations</span>
-          <h1 className="subpage-title">Global BPO & Enabled Services</h1>
-          <p className="subpage-lead">
-            Optimize processes, scale customer support, and reduce operational overhead with our ITIL-governed outsourcing models.
-          </p>
-        </div>
-      </section>
+      {!hideHero && (
+        <section className="subpage-hero">
+          <div className="container">
+            <span className="section-tag">Operations</span>
+            <h1 className="subpage-title">Global BPO & Enabled Services</h1>
+            <p className="subpage-lead">
+              Optimize processes, scale customer support, and reduce operational overhead with our ITIL-governed outsourcing models.
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Offerings Details (White Block) */}
       <section className="section section-white">
@@ -153,7 +163,7 @@ export default function Bpo() {
 
         .bpo-bullet-title {
           font-family: var(--font-heading);
-          font-weight: 700;
+          font-weight: 500;
           font-size: 0.85rem;
           color: var(--color-navy);
           text-transform: uppercase;
@@ -177,7 +187,7 @@ export default function Bpo() {
         .bpo-bullets-list li::before {
           content: '✓';
           color: var(--color-blue);
-          font-weight: 900;
+          font-weight: 600;
           position: absolute;
           left: 0;
         }

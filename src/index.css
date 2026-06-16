@@ -66,7 +66,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.2;
   color: var(--color-navy);
 }
@@ -152,7 +152,7 @@ button {
 .section-tag {
   font-family: var(--font-heading);
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--color-blue);
@@ -165,7 +165,7 @@ button {
 
 .section-title {
   font-size: 2.75rem;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--color-navy);
   margin-bottom: 24px;
@@ -203,7 +203,7 @@ button {
   align-items: center;
   justify-content: center;
   font-family: var(--font-heading);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -369,7 +369,7 @@ button {
 .subpage-hero .subpage-title {
   color: #ffffff !important;
   font-size: 3.5rem;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: -0.02em;
   margin-top: 12px;
   margin-bottom: 20px;

@@ -2,116 +2,114 @@ import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import servicenow from '../assets/servicenow.png';
+import idcards from '../assets/services/idcardsservice.png';
+
 
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ServicesGrid({ setCurrentTab }) {
   const services = [
+   
     {
-      id: 'saas',
-      title: 'SaaS Development',
-      description: 'We engineer custom, multi-tenant SaaS platforms featuring highly secure data isolation, elastic scaling architectures, and billing API integrations. Our development cycles prioritize rapid feature deployments, clean API contracts, and robust microservices designed to scale dynamically alongside your user base.',
-      tab: 'servicenow',
+      id: 'erp-crm',
+      title: 'Enterprise ERP Systems & Custom CRM Solutions Integration',
+      description: 'Unify supply chain logistics, finance operations, and sales databases. We specialize in enterprise resource planning (ERP) implementations and custom HubSpot or Salesforce CRM pipeline syncs.',
+      tab: 'erp-crm',
       image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600',
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
-          <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
-          <line x1="6" y1="6" x2="6.01" y2="6" />
-          <line x1="6" y1="18" x2="6.01" y2="18" />
+          <ellipse cx="12" cy="5" rx="9" ry="3" />
+          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+          <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" />
         </svg>
       ),
       bgIcon: 'rgba(30, 136, 229, 0.08)',
       colorIcon: 'var(--color-blue)'
     },
     {
-      id: 'erp',
-      title: 'ERP Solutions',
-      description: 'Optimize your supply chain, financial reporting, and human capital workflows with our custom ERP system integrations. We bridge operational silos, unify fragmented database environments, and coordinate process automations that minimize resource waste and deliver real-time administrative visibility.',
-      tab: 'servicenow',
-      image: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=600',
+      id: 'mobile-app-dev',
+      title: 'iOS & Android Mobile App Development Services',
+      description: 'Engage audiences worldwide with high-performance cross-platform React Native and Flutter mobile applications, optimized native Swift or Kotlin code, and secure offline-first data integrations.',
+      tab: 'mobile-app-dev',
+      image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=600',
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
-          <line x1="9" y1="22" x2="9" y2="16" />
-          <line x1="15" y1="22" x2="15" y2="16" />
-          <line x1="9" y1="16" x2="15" y2="16" />
-          <path d="M8 6h.01M16 6h.01M8 10h.01M16 10h.01" />
+          <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+          <line x1="12" y1="18" x2="12.01" y2="18" />
         </svg>
       ),
       bgIcon: 'rgba(30, 136, 229, 0.08)',
       colorIcon: 'var(--color-blue)'
     },
     {
-      id: 'crm',
-      title: 'CRM Solutions',
-      description: 'Transform client interactions and accelerate sales velocity through intelligent, unified CRM platform architectures. We deploy customized pipeline automations, data-driven lead scoring engines, and cross-channel tracking interfaces that empower your account managers with actionable client telemetry.',
-      tab: 'servicenow',
-      image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=600',
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-          <circle cx="9" cy="7" r="4" />
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-        </svg>
-      ),
-      bgIcon: 'rgba(30, 136, 229, 0.08)',
-      colorIcon: 'var(--color-blue)'
-    },
-    {
-      id: 'webdev',
-      title: 'Web Development',
-      description: 'Build blazingly fast, modern web applications leveraging responsive React frameworks and headless content management architectures. Our custom web solutions feature performance-optimized bundle sizes, accessible keyboard navigations, and secure backend portal integrations that maximize client engagement.',
-      tab: 'servicenow',
-      image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600',
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="16 18 22 12 16 6" />
-          <polyline points="8 6 2 12 8 18" />
-          <line x1="14" y1="4" x2="10" y2="20" />
-        </svg>
-      ),
-      bgIcon: 'rgba(30, 136, 229, 0.08)',
-      colorIcon: 'var(--color-blue)'
-    },
-    {
-      id: 'itconsult',
-      title: 'IT Consulting',
-      description: 'Navigate digital complexity with our senior technology advisors who specialize in ITIL v4 governance models, SLA alignment, and cloud migrations. We analyze your legacy infrastructure, identify operational bottlenecks, and map out strategic technical blueprints aligned to your business outcomes.',
-      tab: 'servicenow',
+      id: 'it-bpo',
+      title: 'IT Consulting, ServiceNow  & BPO Outsourcing',
+      description: 'Optimize workflow efficiency with ITIL   governance models, certified ServiceNow platform custom configurations, secure cloud server scaling, and high-efficiency back-office BPO support teams.',
+      tab: 'it-bpo',
       image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600',
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-          <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
         </svg>
       ),
       bgIcon: 'rgba(30, 136, 229, 0.08)',
       colorIcon: 'var(--color-blue)'
     },
-   {
-  id: 'servicenow',
-  title: 'ServiceNow ITSM Platform',
-  description: 'Transform your IT Service Management with enterprise-grade ServiceNow implementations. We design custom ITSM workflows, automate incident response, optimize change management processes, and integrate ServiceNow across your entire IT ecosystem. From CMDB optimization to incident automation, we deliver fully-realized enterprise IT service excellence.',
-  tab: 'servicenow',
-  image: servicenow,
-  icon: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-      <line x1="9" y1="9" x2="15" y2="9"></line>
-      <line x1="9" y1="15" x2="15" y2="15"></line>
-      <line x1="9" y1="12" x2="15" y2="12"></line>
-    </svg>
-  ),
-  bgIcon: 'rgba(99, 102, 241, 0.08)',
-  colorIcon: 'var(--color-indigo)'
-}
+    {
+      id: 'digital-marketing',
+      title: 'Data-Driven Digital Marketing & Organic SEO Campaigns',
+      description: 'Accelerate organic search traffic and optimize client acquisition. We engineer programmatic SEO strategies, run conversion-optimized paid ads (PPC), and configure multi-channel tracking loops.',
+      tab: 'digital-marketing',
+      image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?q=80&w=600',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M11 5L6 9H2v6h4l5 4V5z" />
+          <path d="M23 9c0 2.1-1.04 3.96-2.65 5.14M15 9c0 1.2-.59 2.26-1.5 2.94" />
+        </svg>
+      ),
+      bgIcon: 'rgba(30, 136, 229, 0.08)',
+      colorIcon: 'var(--color-blue)'
+    },
+    {
+      id: 'id-card-printing',
+      title: 'Secure Proximity ID Cards & RFID Smart Card Printing',
+      description: 'Secure physical facilities with dual-sided thermal PVC badge printing, custom barcode and QR configurations, smart card RFID chip encoding, and professional access badge accessories.',
+      tab: 'id-card-printing',
+      image: {idcards},
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="4" width="18" height="16" rx="2" />
+          <circle cx="9" cy="10" r="2" />
+          <path d="M14 9h3M14 13h3M6 16c0-2 2-3 3-3s3 1 3 3" />
+        </svg>
+      ),
+      bgIcon: 'rgba(30, 136, 229, 0.08)',
+      colorIcon: 'var(--color-blue)'
+    },
+     {
+      id: 'web-app-dev',
+      title: 'Custom SaaS Platforms & Web Application Development',
+      description: 'Maximize business efficiency with secure, scalable, multi-tenant SaaS platforms and custom React and Next.js web application architectures integrated with automated Stripe revenue billing engines.',
+      tab: 'web-app-dev',
+      image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+          <line x1="8" y1="21" x2="16" y2="21" />
+          <line x1="12" y1="17" x2="12" y2="21" />
+          <polyline points="10 9 7 12 10 15" />
+          <polyline points="14 15 17 12 14 9" />
+        </svg>
+      ),
+      bgIcon: 'rgba(30, 136, 229, 0.08)',
+      colorIcon: 'var(--color-blue)'
+    },
   ];
 
-  const handleServiceClick = (tabId) => {
-    setCurrentTab(tabId);
+  const handleServiceClick = (serviceId) => {
+    setCurrentTab(serviceId);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -219,10 +217,10 @@ export default function ServicesGrid({ setCurrentTab }) {
         
         {/* Spacious Section Header */}
         <div className="services-section-header">
-          <span className="section-tag">WHAT WE DO</span>
-          <h2 className="section-title">Core Capability Areas</h2>
+          <span className="section-tag">Enterprise IT Solutions & Services</span>
+          <h2 className="section-title">Full-Suite Enterprise Software Engineering & IT Consulting</h2>
           <p className="section-subtitle">
-            We deliver enterprise consulting and engineering structures that drive digital transformation and maximize operational efficiencies.
+            We provide industry-leading digital transformation, custom SaaS architectures, enterprise ERP/CRM system integrations, ServiceNow  solutions, and performance marketing to optimize operations and scale growth.
           </p>
         </div>
 
@@ -240,7 +238,7 @@ export default function ServicesGrid({ setCurrentTab }) {
               <div className="container">
                 <div 
                   className={`capability-flow-row ${isEven ? 'row-reversed' : ''}`} 
-                  onClick={() => handleServiceClick(service.tab)}
+                  onClick={() => handleServiceClick(service.id)}
                 >
                   {/* Left Column */}
                   <div className="flow-col flow-col-left">
@@ -342,12 +340,12 @@ export default function ServicesGrid({ setCurrentTab }) {
         }
 
         /* Specific backgrounds for each capability block */
-        .row-bg-saas { background-color: #ffffff; }
-        .row-bg-erp { background-color: #f1f5f9; }       /* Subtle cool slate */
-        .row-bg-crm { background-color: #faf5ff; }       /* Subtle soft purple */
-        .row-bg-webdev { background-color: #f0f7f7; }    /* Subtle soft teal */
-        .row-bg-itconsult { background-color: #fafaf9; } /* Subtle soft stone warm gray */
-        .row-bg-servicenow { background-color: #ecf5ff; } /* Subtle soft brand blue */
+        .row-bg-web-app-dev { background-color: #ffffff; }
+        .row-bg-erp-crm { background-color: #f1f5f9; }       /* Subtle cool slate */
+        .row-bg-mobile-app-dev { background-color: #faf5ff; }       /* Subtle soft purple */
+        .row-bg-it-bpo { background-color: #f0f7f7; }    /* Subtle soft teal */
+        .row-bg-digital-marketing { background-color: #fafaf9; } /* Subtle soft stone warm gray */
+        .row-bg-id-card-printing { background-color: #ecf5ff; } /* Subtle soft brand blue */
 
         .capability-flow-row {
           display: grid;
@@ -489,7 +487,7 @@ export default function ServicesGrid({ setCurrentTab }) {
         .flow-step-tag {
           font-family: var(--font-heading);
           font-size: 0.75rem;
-          font-weight: 700;
+          font-weight: 500;
           letter-spacing: 0.1em;
           color: var(--color-text-muted);
           text-transform: uppercase;
@@ -505,7 +503,7 @@ export default function ServicesGrid({ setCurrentTab }) {
           font-size: 1.6rem;
           color: var(--color-navy);
           margin-bottom: 12px;
-          font-weight: 700;
+          font-weight: 500;
         }
 
         /* Justified text alignment for capability descriptions */
@@ -520,7 +518,7 @@ export default function ServicesGrid({ setCurrentTab }) {
 
         .service-card-link-text {
           font-family: var(--font-heading);
-          font-weight: 700;
+          font-weight: 500;
           font-size: 0.85rem;
           color: var(--color-blue);
           text-transform: uppercase;

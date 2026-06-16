@@ -1,114 +1,15 @@
-import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useState, useEffect } from 'react';
 
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero({ setCurrentTab }) {
-  const bgRef = useRef(null);
-  const sectionRef = useRef(null);
+  const [introFinished, setIntroFinished] = useState(false);
 
+  // Trigger state change once all words have animated in
   useEffect(() => {
-    const bgElement = bgRef.current;
-    const sectionElement = sectionRef.current;
-
-    if (bgElement && sectionElement) {
-      // 1. Scroll-triggered parallax for background image
-      gsap.fromTo(
-        bgElement,
-        { yPercent: 0, scale: 1.05 },
-        {
-          yPercent: 15,
-          scale: 1.15,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionElement,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true
-          }
-        }
-      );
-
-      // 2. Scroll-triggered parallax for the grid overlay
-      const gridOverlay = sectionElement.querySelector('.hero-grid-overlay');
-      if (gridOverlay) {
-        gsap.fromTo(
-          gridOverlay,
-          { yPercent: 0 },
-          {
-            yPercent: 8,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: sectionElement,
-              start: 'top top',
-              end: 'bottom top',
-              scrub: true
-            }
-          }
-        );
-      }
-
-      // 3. Scroll-triggered parallax for floating elements (moving faster in opposite direction!)
-      const floatingElements = sectionElement.querySelectorAll('.hero-floating-item');
-      floatingElements.forEach((el, index) => {
-        const speed = (index + 1) * -35;
-        gsap.fromTo(
-          el,
-          { y: 0 },
-          {
-            y: speed,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: sectionElement,
-              start: 'top top',
-              end: 'bottom top',
-              scrub: true
-            }
-          }
-        );
-      });
-    }
-
-    // 4. Mouse-move interactive parallax
-    const handleMouseMove = (e) => {
-      const { clientX, clientY } = e;
-      const { innerWidth, innerHeight } = window;
-      
-      const xNorm = (clientX / innerWidth) - 0.5;
-      const yNorm = (clientY / innerHeight) - 0.5;
-
-      if (bgRef.current) {
-        gsap.to(bgRef.current, {
-          x: xNorm * 30,
-          y: yNorm * 20,
-          duration: 1.2,
-          ease: 'power2.out'
-        });
-      }
-
-      const floatingItems = sectionRef.current?.querySelectorAll('.hero-floating-item');
-      floatingItems?.forEach(item => {
-        const depth = parseFloat(item.getAttribute('data-depth') || '0.5');
-        const xMove = xNorm * depth * 90;
-        const yMove = yNorm * depth * 90;
-
-        gsap.to(item, {
-          x: xMove,
-          y: yMove,
-          duration: 1.2,
-          ease: 'power2.out'
-        });
-      });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
+    const timer = setTimeout(() => {
+      setIntroFinished(true);
+    }, 1000); // 1.0s allows slower word-by-word animation to finish and settle
+    return () => clearTimeout(timer);
   }, []);
 
   const handleCtaClick = (tabId) => {
@@ -116,151 +17,106 @@ export default function Hero({ setCurrentTab }) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Framer Motion staggered animation configurations
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] } 
-    }
-  };
+  const line1 = ["Bridging", "Tech", "Complexity"];
+  const line2 = ["with", "Business", "Outcomes"];
 
   return (
-    <section ref={sectionRef} className="hero-section flex-center">
-      
-      {/* Parallax Background Canvas */}
-      <div className="hero-parallax-bg-container">
+    <section className="hero-section">
+      {/* Background Banner Image */}
+      <div className="hero-bg-container">
         <div 
-          ref={bgRef}
-          className="hero-parallax-bg-image"
+          className="hero-bg-image"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1600')`
+            backgroundImage: `url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600')`,
+            opacity: introFinished ? 1 : 0
           }}
         />
-        <div className="hero-parallax-overlay"></div>
-        <div className="hero-grid-overlay"></div>
+        <div className={`hero-overlay ${introFinished ? 'visible' : 'intro'}`} />
       </div>
 
-      {/* Floating Elements for Parallax */}
-      <div className="hero-floating-item hero-glow-sphere sphere-1" data-depth="0.2"></div>
-      <div className="hero-floating-item hero-glow-sphere sphere-2" data-depth="0.4"></div>
-      
-      {/* High-tech sharp picture windows for parallax
-      <div className="hero-floating-item hero-picture-box pic-left" data-depth="0.7">
-        <div className="pic-box-inner">
-          <img 
-            src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=500" 
-            alt="Digital Cryptography Node" 
-            className="hero-pic-img"
-          />
-          <div className="pic-box-overlay"></div>
-        </div>
-      </div> */}
-
-      
-
       <div className="container hero-layout-wrapper">
-        
-        {/* Centered Typography block */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="hero-content-center"
-        >
-          <motion.span variants={itemVariants} className="hero-small-tag">
-            INTELLIGENT IT SOLUTIONS
-          </motion.span>
+        {/* Left-Aligned Typography Block */}
+        <div className="hero-content-left">
+          <span 
+            className={`hero-eyebrow fade-in-element ${introFinished ? 'visible' : ''}`}
+            style={{ transitionDelay: '0.05s' }}
+          >
+            Enterprise IT Services & ServiceNow Excellence
+          </span>
           
-          <motion.h1 variants={itemVariants} className="hero-heading">
-            Bridging Tech Complexity <br />
-            with <span className="highlight-underline">Business Outcomes</span>
-          </motion.h1>
+          <h1 className="hero-heading">
+            <div className="hero-heading-line">
+              {line1.map((word, idx) => (
+                <span 
+                  key={`l1-${idx}`} 
+                  className="hero-word" 
+                  style={{ '--word-index': idx }}
+                >
+                  {word}
+                </span>
+              ))}
+            </div>
+            <div className="hero-heading-line">
+              {line2.map((word, idx) => (
+                <span 
+                  key={`l2-${idx}`} 
+                  className={`hero-word ${idx > 0 ? 'hero-accent' : ''}`}
+                  style={{ '--word-index': idx + line1.length }}
+                >
+                  {word}
+                </span>
+              ))}
+            </div>
+          </h1>
           
-          <motion.p variants={itemVariants} className="hero-description">
-            We design, develop, and support intelligent IT solutions that streamline operations, accelerate growth, and drive real impact.
-          </motion.p>
+          <p 
+            className={`hero-description fade-in-element ${introFinished ? 'visible' : ''}`}
+            style={{ transitionDelay: '0.15s' }}
+          >
+            We engineer custom SaaS, ERP, and CRM platforms, deliver modern web developments, and architect ServiceNow workflows that streamline operations, enforce governance, and drive business growth.
+          </p>
           
-          <motion.div variants={itemVariants} className="hero-actions-row">
-            <button onClick={() => handleCtaClick('contact')} className="btn btn-primary cta-btn-filled">
+          <div 
+            className={`hero-actions fade-in-element ${introFinished ? 'visible' : ''}`}
+            style={{ transitionDelay: '0.25s' }}
+          >
+            <button onClick={() => handleCtaClick('contact')} className="btn btn-primary hero-btn-primary">
               Schedule a Consultation
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="cta-arrow">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="btn-arrow">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
             </button>
-            <button onClick={() => handleCtaClick('servicenow')} className="btn btn-outline cta-btn-outline">
+            <button onClick={() => handleCtaClick('services')} className="btn btn-outline hero-btn-outline">
               Explore Our Services
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="cta-arrow">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
             </button>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        {/* Bottom Stats Checklist & Trusted Brands Banner (Glassmorphic dark design) */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="hero-stats-banner"
+        {/* Minimalist Metrics Row */}
+        <div 
+          className={`hero-stats-row fade-in-element ${introFinished ? 'visible' : ''}`}
+          style={{ transitionDelay: '0.4s' }}
         >
-          {/* Stats Bar */}
-          <div className="stats-bar-grid">
-            <div className="stat-unit">
-              <div className="stat-unit-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /></svg>
-              </div>
-              <div className="stat-unit-text">
-                <strong>120+</strong>
-                <span>Happy Clients</span>
-              </div>
+          <div className="stats-grid">
+            <div className="stat-item">
+              <strong>120+</strong>
+              <span>Happy Clients</span>
             </div>
-
-            <div className="stat-unit">
-              <div className="stat-unit-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /><line x1="14" y1="4" x2="10" y2="20" /></svg>
-              </div>
-              <div className="stat-unit-text">
-                <strong>250+</strong>
-                <span>Projects Delivered</span>
-              </div>
+            <div className="stat-item">
+              <strong>250+</strong>
+              <span>Projects Delivered</span>
             </div>
-
-            <div className="stat-unit">
-              <div className="stat-unit-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-              </div>
-              <div className="stat-unit-text">
-                <strong>50+</strong>
-                <span>Expert Developers</span>
-              </div>
+            <div className="stat-item">
+              <strong>50+</strong>
+              <span>Expert Developers</span>
             </div>
-
-            <div className="stat-unit">
-              <div className="stat-unit-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
-              </div>
-              <div className="stat-unit-text">
-                <strong>5+</strong>
-                <span>Years of Experience</span>
-              </div>
+            <div className="stat-item">
+              <strong>23+</strong>
+              <span>Years of Experience</span>
             </div>
           </div>
-        </motion.div>
+        </div>
 
       </div>
 
@@ -269,407 +125,261 @@ export default function Hero({ setCurrentTab }) {
           position: relative;
           min-height: 100vh;
           width: 100%;
-          padding-bottom: 30px;
-          overflow: hidden;
-          z-index: 1;
+          display: flex;
+          align-items: center;
           color: #ffffff;
+          overflow: hidden;
+          background-color: #a4b3a3;
+          padding-top: 80px; /* Offset sticky navbar */
+          padding-bottom: 40px;
         }
 
-        /* Parallax Background styles */
-        .hero-parallax-bg-container {
+        .hero-bg-container {
           position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 115%; /* Extra height to accommodate parallax translation offsets */
-          overflow: hidden;
+          inset: 0;
           z-index: 0;
+          overflow: hidden;
           pointer-events: none;
         }
 
-        .hero-parallax-bg-image {
+        .hero-bg-image {
           width: 100%;
           height: 100%;
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
+          background-attachment: fixed;
+          transition: opacity 1s ease-in-out;
         }
 
-        .hero-parallax-overlay {
+        /* Dark background transition to left-heavy gradient mask */
+        .hero-overlay {
           position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(30, 136, 229, 0.18) 60%, #000000 100%);
+          inset: 0;
+          background-color: #b6bebb;
+          transition: background-image 1s ease-in-out, background-color 1s ease-in-out;
           z-index: 1;
         }
 
-        .hero-grid-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-image: 
-            linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-          background-size: 48px 48px;
-          mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 85%);
-          -webkit-mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 85%);
-          z-index: 2;
-        }
-
-        /* Floating glowing spheres */
-        .hero-glow-sphere {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(120px);
-          opacity: 0.35;
-          z-index: 1;
-          pointer-events: none;
-        }
-
-        .sphere-1 {
-          width: 350px;
-          height: 350px;
-          background: radial-gradient(circle, var(--color-blue) 0%, transparent 70%);
-          top: 15%;
-          left: 10%;
-        }
-
-        .sphere-2 {
-          width: 400px;
-          height: 400px;
-          background: radial-gradient(circle, #6366f1 0%, transparent 70%);
-          bottom: 20%;
-          right: 15%;
-        }
-
-        /* Floating Picture Boxes */
-        .hero-picture-box {
-          position: absolute;
-          border: 1.5px solid rgba(255, 255, 255, 0.2);
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 35px rgba(30, 136, 229, 0.18);
-          z-index: 2;
-          pointer-events: none;
-          overflow: hidden;
-          background-color: #000000;
-          transition: border-color var(--transition-normal);
-        }
-
-        .pic-box-inner {
-          width: 100%;
-          height: 100%;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .hero-pic-img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          filter: brightness(0.95) contrast(1.15) saturate(1.1); /* Very rich and sharp */
-          transition: transform 0.5s ease;
-        }
-
-        .pic-box-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(135deg, rgba(30, 136, 229, 0.08) 0%, rgba(0, 0, 0, 0.35) 100%);
-          z-index: 1;
-        }
-
-        .pic-left {
-          top: 22%;
-          left: 6%;
-          width: 220px;
-          height: 220px;
-          animation: float-slow-1 8s ease-in-out infinite alternate;
-        }
-
-        .pic-right {
-          bottom: 28%;
-          right: 6%;
-          width: 180px;
-          height: 180px;
-          animation: float-slow-2 10s ease-in-out infinite alternate;
-        }
-
-        @media (max-width: 1200px) {
-          .pic-left {
-            width: 140px;
-            height: 140px;
-            left: 2%;
-            top: 25%;
-          }
-          .pic-right {
-            width: 110px;
-            height: 110px;
-            right: 2%;
-            bottom: 30%;
-          }
-        }
-
-        /* Float animations */
-        @keyframes float-slow-1 {
-          0% { transform: translateY(0) rotate(-3deg); }
-          100% { transform: translateY(-15px) rotate(-1deg); }
-        }
-
-        @keyframes float-slow-2 {
-          0% { transform: translateY(0) rotate(4deg); }
-          100% { transform: translateY(-20px) rotate(6deg); }
+        .hero-overlay.visible {
+          background-color: transparent;
+          background-image: linear-gradient(90deg, rgba(119, 168, 138, 0.96) 0%, rgba(42, 153, 101, 0.85) 45%, rgba(61, 150, 85, 0.45) 75%, rgba(15, 23, 42, 0) 100%);
         }
 
         .hero-layout-wrapper {
+          position: relative;
+          z-index: 2;
           display: flex;
           flex-direction: column;
-          gap: 80px;
-          position: relative;
-          z-index: 10;
-        }
-
-        /* Centered Hero Content block */
-        .hero-content-center {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          max-width: 960px;
-          margin: 60px auto 0;
-        }
-
-        .hero-small-tag {
-          font-family: var(--font-heading);
-          font-weight: 700;
-          font-size: 0.9rem;
-          color: #ffffff;
-          letter-spacing: 0.12em;
-          margin-bottom: 28px;
-          display: inline-block;
-          padding: 6px 18px;
-          background-color: rgba(30, 136, 229, 0.12);
-          border: 1px solid rgba(30, 136, 229, 0.3);
-          border-radius: var(--radius-pill);
-          backdrop-filter: blur(8px);
-        }
-
-        .hero-heading {
-          font-size: 4.5rem;
-          font-weight: 800;
-          letter-spacing: -0.03em;
-          color: #ffffff;
-          line-height: 1.1;
-          margin-bottom: 28px;
-        }
-
-        .highlight-underline {
-          position: relative;
-          display: inline-block;
-          background: linear-gradient(90deg, #1e88e5, #38bdf8);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
-        .highlight-underline::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: -4px;
+          gap: 64px;
           width: 100%;
-          height: 4px;
-          background: linear-gradient(90deg, #1e88e5, #38bdf8);
-          border-radius: 2px;
-        }
-
-        .hero-description {
-          font-size: 1.3rem;
-          color: rgba(255, 255, 255, 0.85);
-          line-height: 1.65;
-          margin-bottom: 48px;
-          max-width: 700px;
-        }
-
-        .hero-actions-row {
-          display: flex;
-          gap: 16px;
-          flex-wrap: wrap;
-          justify-content: center;
-        }
-
-        .cta-btn-filled {
-          padding: 14px 28px;
-          background-color: var(--color-blue);
-          border: 1.5px solid var(--color-blue);
-          color: #ffffff;
-          box-shadow: 0 4px 20px rgba(30, 136, 229, 0.25);
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-
-        .cta-btn-filled:hover {
-          background-color: var(--color-blue-hover);
-          border-color: var(--color-blue-hover);
-          box-shadow: 0 6px 24px rgba(30, 136, 229, 0.4);
-        }
-
-        .cta-btn-outline {
-          padding: 14px 28px;
-          border-color: #ffffff;
-          color: #ffffff;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-
-        .cta-btn-outline:hover {
-          background-color: rgba(255, 255, 255, 0.08);
-        }
-
-        .cta-arrow {
-          transition: transform var(--transition-fast);
-        }
-
-        .cta-btn-filled:hover .cta-arrow,
-        .cta-btn-outline:hover .cta-arrow {
-          transform: translateX(3px);
-        }
-
-        /* Bottom Stats Bar and Trust Banner (Dark glass theme) */
-        .hero-stats-banner {
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
-          display: flex;
-          flex-direction: column;
-          gap: 0px;
-        }
-
-        .stats-bar-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 24px;
-          background-color: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border-radius: var(--radius-md);
-          padding: 24px 32px;
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .stat-unit {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-        }
-
-        .stat-unit-icon {
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          background-color: rgba(30, 136, 229, 0.12);
-          color: var(--color-blue);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        }
-
-        .stat-unit-text {
-          display: flex;
-          flex-direction: column;
-          line-height: 1.35;
           text-align: left;
         }
 
-        .stat-unit-text strong {
+        .hero-content-left {
+          max-width: 800px;
+        }
+
+        .hero-eyebrow {
+          display: inline-block;
           font-family: var(--font-heading);
-          font-weight: 800;
-          font-size: 1.4rem;
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: var(--color-blue);
+          text-transform: uppercase;
+          letter-spacing: 0.18em;
+          margin-bottom: 24px;
+        }
+
+        .hero-heading {
+          font-size: clamp(2.5rem, 5.5vw, 4.2rem);
+          font-weight: 600;
           color: #ffffff;
+          line-height: 1.15;
+          letter-spacing: -0.025em;
+          margin-bottom: 24px;
         }
 
-        .stat-unit-text span {
-          font-size: 0.85rem;
-          color: rgba(255, 255, 255, 0.65);
+        .hero-heading-line {
+          display: block;
         }
 
-        .trusted-brands-row {
-          align-items: center;
-          gap: 20px;
+        /* Individual word sliding intro animation - slowed down for premium feel */
+        .hero-word {
+          display: inline-block;
+          margin-right: 0.22em;
+          opacity: 0;
+          transform: translateX(-40px);
+          filter: blur(2px);
+          animation: slideInWord 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+          animation-delay: calc(var(--word-index) * 0.22s);
+        }
+
+        .hero-accent {
+          color: var(--color-blue);
+        }
+
+        @keyframes slideInWord {
+          to {
+            opacity: 1;
+            transform: translateX(0);
+            filter: blur(0);
+          }
+        }
+
+        .hero-description {
+          font-size: 1.15rem;
+          color: rgba(255, 255, 255, 0.75);
+          line-height: 1.65;
+          margin-bottom: 40px;
+          max-width: 660px;
+        }
+
+        .hero-actions {
+          display: flex;
+          gap: 16px;
           flex-wrap: wrap;
         }
 
-        .trusted-title {
+        .hero-btn-primary {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          background: var(--color-blue);
+          color: #ffffff;
           font-family: var(--font-heading);
-          font-weight: 700;
-          font-size: 0.8rem;
-          color: rgba(255, 255, 255, 0.4);
+          font-size: 0.85rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          padding: 16px 36px;
+          border: none;
+          cursor: pointer;
+          border-radius: 2px;
+          transition: all var(--transition-fast);
+          box-shadow: 0 4px 14px rgba(30, 136, 229, 0.2);
+        }
+
+        .hero-btn-primary:hover {
+          background: var(--color-blue-hover);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(30, 136, 229, 0.35);
+        }
+
+        .btn-arrow {
+          transition: transform var(--transition-fast);
+        }
+
+        .hero-btn-primary:hover .btn-arrow {
+          transform: translateX(3px);
+        }
+
+        .hero-btn-outline {
+          display: inline-flex;
+          align-items: center;
+          background: transparent;
+          color: #ffffff;
+          font-family: var(--font-heading);
+          font-size: 0.85rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          padding: 16px 36px;
+          border: 1.5px solid rgba(255, 255, 255, 0.3);
+          cursor: pointer;
+          border-radius: 2px;
+          transition: all var(--transition-fast);
+        }
+
+        .hero-btn-outline:hover {
+          border-color: #ffffff;
+          background: rgba(255, 255, 255, 0.05);
+          transform: translateY(-2px);
+        }
+
+        /* Staged Fade-in Elements */
+        .fade-in-element {
+          opacity: 0;
+          transform: translateY(15px);
+          pointer-events: none;
+          transition: opacity 0.85s cubic-bezier(0.25, 1, 0.5, 1), transform 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .fade-in-element.visible {
+          opacity: 1;
+          transform: translateY(0);
+          pointer-events: all;
+        }
+
+        /* Minimalist Metrics Row */
+        .hero-stats-row {
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          padding-top: 48px;
+        }
+
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 40px;
+        }
+
+        .stat-item {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .stat-item strong {
+          font-family: var(--font-heading);
+          font-size: 2.2rem;
+          font-weight: 600;
+          color: #ffffff;
+          line-height: 1;
+        }
+
+        .stat-item span {
+          font-size: 0.85rem;
+          color: rgba(255, 255, 255, 0.55);
+          text-transform: uppercase;
           letter-spacing: 0.08em;
         }
 
-        .trusted-logos-flex {
-          display: flex;
-          align-items: center;
-          gap: 36px;
-          flex-wrap: wrap;
-        }
-
-        .brand-logo-text {
-          font-family: var(--font-heading);
-          font-size: 1.15rem;
-          font-weight: 700;
-          color: rgba(255, 255, 255, 0.35);
-          letter-spacing: -0.02em;
-          transition: color var(--transition-fast);
-        }
-
-        .brand-logo-text:hover {
-          color: #ffffff;
-        }
-
-        @media (max-width: 1080px) {
-          .hero-heading {
-            font-size: 3.8rem;
+        @media (max-width: 900px) {
+          .hero-section {
+            padding-top: 100px;
           }
-        }
-
-        @media (max-width: 1024px) {
-          .stats-bar-grid {
+          .hero-bg-image {
+            background-attachment: scroll;
+          }
+          .hero-overlay.visible {
+            background-image: none;
+            background-color: transparent;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.85) 100%);
+          }
+          .stats-grid {
             grid-template-columns: repeat(2, 1fr);
-            padding: 20px;
+            gap: 32px;
           }
-        }
-
-        @media (max-width: 768px) {
-          .hero-picture-box {
-            display: none !important;
-          }
-          .hero-floating-card {
-            display: none !important;
-          }
-          .hero-glow-sphere {
-            display: none !important;
-          }
-        }
-
-        @media (max-width: 768px) {
           .hero-heading {
             font-size: 2.8rem;
           }
-          .stats-bar-grid {
+          .hero-description {
+            font-size: 1.05rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .stats-grid {
             grid-template-columns: 1fr;
+            gap: 24px;
           }
-          .trusted-brands-row {
+          .hero-actions {
             flex-direction: column;
-            align-items: flex-start;
+            width: 100%;
           }
-          .trusted-logos-flex {
-            gap: 20px;
+          .hero-btn-primary, .hero-btn-outline {
+            width: 100%;
+            justify-content: center;
           }
         }
       `}</style>

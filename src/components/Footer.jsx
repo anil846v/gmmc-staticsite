@@ -1,4 +1,4 @@
-import logoImg from '../assets/logo.png';
+import footerLogo from '../assets/footerlogo.png';
 
 export default function Footer({ setCurrentTab }) {
   const handleNavClick = (tabId) => {
@@ -12,10 +12,7 @@ export default function Footer({ setCurrentTab }) {
         
         {/* Left Side: Brand Image and Tagline */}
         <div className="footer-brand-col">
-          <img src={logoImg} alt="Genius Minds Logo" className="footer-logo-img" />
-          <p className="footer-brand-tagline">
-            Building Smart Solutions for a Future Digital World. Making Code.
-          </p>
+          <img src={footerLogo} alt="Genius Minds Logo" className="footer-logo-img" />
         </div>
 
         {/* Center: Quick Links */}
@@ -23,9 +20,9 @@ export default function Footer({ setCurrentTab }) {
           <h3>Capabilities</h3>
           <ul className="footer-links-list">
             <li><button onClick={() => handleNavClick('home')}>Home Overview</button></li>
-            <li><button onClick={() => handleNavClick('servicenow')}>ServiceNow Consulting</button></li>
-            <li><button onClick={() => handleNavClick('bpo')}>Global BPO Services</button></li>
-            <li><button onClick={() => handleNavClick('trainings')}>Trainings Catalog</button></li>
+            <li><button onClick={() => handleNavClick('web-app-dev')}>Web & SaaS Development</button></li>
+            <li><button onClick={() => handleNavClick('it-bpo')}>IT Consulting & BPO</button></li>
+            <li><button onClick={() => handleNavClick('trainings')}>Trainings & Enablement</button></li>
             <li><button onClick={() => handleNavClick('about')}>About Genius Minds</button></li>
           </ul>
         </div>
@@ -80,10 +77,10 @@ export default function Footer({ setCurrentTab }) {
 
       <style>{`
         .footer-section {
-          background-color: #002140;
-          color: rgba(255, 255, 255, 0.7);
+          background-color: var(--color-soft-bg);
+          color: var(--color-text-secondary);
           padding-top: 80px;
-          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          border-top: 1px solid var(--color-border);
         }
 
         .footer-container {
@@ -98,28 +95,20 @@ export default function Footer({ setCurrentTab }) {
           flex-direction: column;
           align-items: flex-start;
         }
-        
-        .footer-logo-img {
-          height: 48px;
-          object-fit: contain;
-          margin-bottom: 20px;
-        }
 
-        .footer-brand-tagline {
-          font-size: 0.95rem;
-          line-height: 1.6;
-          color: rgba(255, 255, 255, 0.55);
-          max-width: 320px;
+        .footer-logo-img {
+          height: 110px;
+          object-fit: contain;
         }
 
         .footer-links-col h3,
         .footer-contact-col h3 {
-          font-size: 1.1rem;
-          color: #ffffff;
+          font-size: 0.75rem;
+          color: var(--color-navy);
           margin-bottom: 24px;
-          font-weight: 700;
+          font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.12em;
         }
 
         .footer-links-list {
@@ -132,9 +121,9 @@ export default function Footer({ setCurrentTab }) {
         .footer-links-list button {
           background: none;
           border: none;
-          color: rgba(255, 255, 255, 0.7);
+          color: var(--color-text-secondary);
           font-family: var(--font-body);
-          font-size: 0.95rem;
+          font-size: 0.92rem;
           text-align: left;
           cursor: pointer;
           transition: color var(--transition-fast);
@@ -142,21 +131,23 @@ export default function Footer({ setCurrentTab }) {
         }
 
         .footer-links-list button:hover {
-          color: #ffffff;
+          color: var(--color-blue);
         }
 
         .footer-contact-item {
-          font-size: 0.95rem;
+          font-size: 0.92rem;
           margin-bottom: 14px;
+          color: var(--color-text-secondary);
         }
 
         .footer-contact-item strong {
-          color: #ffffff;
+          color: var(--color-navy);
+          font-weight: 600;
         }
 
         .footer-socials {
           display: flex;
-          gap: 12px;
+          gap: 10px;
           margin-top: 24px;
         }
 
@@ -166,10 +157,10 @@ export default function Footer({ setCurrentTab }) {
           justify-content: center;
           width: 36px;
           height: 36px;
-          border-radius: 0px;
-          background-color: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: rgba(255, 255, 255, 0.7);
+          border-radius: 6px;
+          background-color: rgba(15, 23, 42, 0.04);
+          border: 1px solid var(--color-border);
+          color: var(--color-text-secondary);
           transition: all var(--transition-fast);
         }
 
@@ -181,11 +172,11 @@ export default function Footer({ setCurrentTab }) {
         }
 
         .footer-bottom {
-          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          border-top: 1px solid var(--color-border);
           padding-top: 24px;
           padding-bottom: 24px;
-          font-size: 0.85rem;
-          color: rgba(255, 255, 255, 0.5);
+          font-size: 0.82rem;
+          color: var(--color-text-muted);
         }
 
         .footer-bottom-container {
@@ -200,13 +191,21 @@ export default function Footer({ setCurrentTab }) {
         }
 
         .footer-bottom-links a {
-          color: rgba(255, 255, 255, 0.5);
+          color: var(--color-text-muted);
           transition: color var(--transition-fast);
         }
 
         .footer-bottom-links a:hover {
-          color: #ffffff;
+          color: var(--color-blue);
         }
+          .footer-logo {
+            width: 260px;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            margin-left: -150px;
+}
+          }
 
         @media (max-width: 900px) {
           .footer-container {
