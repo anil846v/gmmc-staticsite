@@ -1,48 +1,48 @@
 import { useState, useEffect } from 'react';
 
-export default function ServiceNow({ hideHero = false }) {
+export default function WebDev({ hideHero = false }) {
   const [inquirySubmitted, setInquirySubmitted] = useState(false);
 
   useEffect(() => {
     if (!hideHero) {
-      document.title = 'Enterprise ServiceNow Consulting | GMMC';
+      document.title = 'Custom Web Application & React Development | GMMC';
       window.scrollTo(0, 0);
     }
   }, [hideHero]);
 
   const modules = [
     {
-      title: 'IT Service Management ()',
-      tagline: 'Standardize & Automate IT Workflows',
-      desc: 'We configure incident, problem, change, release, and request catalog management. Speed up resolution times and align IT delivery with business constraints.',
-      bullets: ['Custom Service Catalog & Portal design', 'SLA definition & routing rule automation', 'Virtual Agent & AI search setups']
+      title: 'Next.js & Edge Config',
+      tagline: 'Blazing Load Speeds',
+      desc: 'Build serverless SSR and SSG web applications running on global CDN edges to minimize network hops and achieve high performance.',
+      bullets: ['Serverless Server-Side Rendering (SSR)', 'Incremental Static Regeneration (ISR)', 'Vercel CDN edge routing setups']
     },
     {
-      title: 'IT Operations Management (ITOM)',
-      tagline: 'Visibility & Health of Infrastructure',
-      desc: 'Gain 100% visibility into your infrastructure. We configure Discovery and build a robust CMDB to maps business services to servers, databases, and APIs.',
-      bullets: ['Automated CMDB Discovery schedules', 'Service Mapping & Event Management integration', 'Predictive AIOps alerting configurations']
+      title: 'Decoupled Content Hubs',
+      tagline: 'Headless CMS Integration',
+      desc: 'Connect your custom React frontend to headless CMS content systems. Empower marketing teams to perform updates without developer cycles.',
+      bullets: ['Contentful, Strapi, and Sanity APIs', 'Structured content schema design', 'Automated build triggers on content save']
     },
     {
-      title: 'Security Operations (SecOps)',
-      tagline: 'Respond to Vulnerabilities in Real-time',
-      desc: 'Tie security tools directly to ServiceNow. We automate security incident response and vulnerability management processes to secure applications.',
-      bullets: ['Vulnerability Response integrations (Tenable, Qualys)', 'Security Incident Response playbook automation', 'Threat Intelligence correlation mapping']
+      title: 'SEO & PageSpeed',
+      tagline: 'Core Web Vitals Focus',
+      desc: 'Implement clean W3C semantic layouts, leverage image optimization utilities, and bundle size control techniques to hit high PageSpeed metrics.',
+      bullets: ['100% W3C HTML validity compliance', 'Optimized WebP/AVIF dynamic images', 'LCP (Largest Contentful Paint) under 1s']
     },
     {
-      title: 'CSM & HR Service Delivery',
-      tagline: 'Deliver Outstanding Shared Experiences',
-      desc: 'Extend digital workflow structures beyond IT. Automate employee onboarding/offboarding processes and scale external client support systems.',
-      bullets: ['Employee Service Center portals', 'HR Lifecycle workflow automation', 'Omnichannel Customer Service Management (CSM)']
+      title: 'Reactive State Flow',
+      tagline: 'Robust Global State',
+      desc: 'Establish clean client state flows using global state management frameworks. Prevent unwanted component re-renders for smooth UX.',
+      bullets: ['Zustand and Redux Toolkit patterns', 'Local state and hook encapsulation', 'Cache synchronization and polling intervals']
     }
   ];
 
   const phases = [
-    { num: '01', title: 'Discover', desc: 'Assess current systems, licenses, CMDB state, and define clear business outcome targets.' },
-    { num: '02', title: 'Design', desc: 'Draft architecture proposals, process maps, data schemas, and UI wireframes.' },
-    { num: '03', title: 'Implement', desc: 'Execute configuration and custom scripting in sprint iterations with full QA checks.' },
-    { num: '04', title: 'Run & Support', desc: 'Deliver administrator support, handle enhancements, and maintain incident operations.' },
-    { num: '05', title: 'Optimize', desc: 'Prepare platform upgrades (e.g., Washington/Xanadu) and automate manual operations.' }
+    { num: '01', title: 'Discover', desc: 'Identify target user experience, list browser support requirements, and detail API payloads.' },
+    { num: '02', title: 'Design', desc: 'Create Figma wireframes, draft custom component tokens, and plan global states.' },
+    { num: '03', title: 'Implement', desc: 'Code responsive components in React / Next.js with complete CSS design system rules.' },
+    { num: '04', title: 'Deploy', desc: 'Deploy builds to staging CDN instances, run automated browser tests, and go live.' },
+    { num: '05', title: 'Optimize', desc: 'Analyze Core Web Vitals telemetry, tune caching headers, and compress bundle assets.' }
   ];
 
   const handleFormSubmit = (e) => {
@@ -51,26 +51,26 @@ export default function ServiceNow({ hideHero = false }) {
   };
 
   return (
-    <div className="servicenow-page">
-      {/* Page Hero (Dark Digital Block) */}
+    <div className="webdev-page">
+      {/* Page Hero */}
       {!hideHero && (
         <section className="subpage-hero">
           <div className="container">
-            <div className="servicenow-badge-pill">Certified ServiceNow Specialist</div>
-            <h1 className="subpage-title">Enterprise ServiceNow Consulting</h1>
+            <div className="webdev-badge-pill">Web Architecture Specialist</div>
+            <h1 className="subpage-title">Custom Web Applications</h1>
             <p className="subpage-lead">
-              We help you implement, configure, and maintain the ServiceNow platform under ITIL   standards to drive automation and maximize digital returns.
+              Build fast, accessible, and high-converting digital applications leveraging modern React frameworks, headless CMS platforms, and optimized code delivery pipelines.
             </p>
           </div>
         </section>
       )}
 
-      {/* Modules Capabilities (White Block) */}
+      {/* Modules Capabilities */}
       <section className="section section-white">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
             <span className="section-tag">Platform Capabilities</span>
-            <h2 className="section-title">Where We Help You Succeed</h2>
+            <h2 className="section-title">Professional React Engineering</h2>
           </div>
 
           <div className="grid-2">
@@ -79,7 +79,7 @@ export default function ServiceNow({ hideHero = false }) {
                 <span className="cap-tag">{mod.tagline}</span>
                 <h3>{mod.title}</h3>
                 <p>{mod.desc}</p>
-                <div className="cap-bullet-title">Key Offerings:</div>
+                <div className="cap-bullet-title">Core Offerings:</div>
                 <ul className="cap-bullets">
                   {mod.bullets.map((bullet, bidx) => (
                     <li key={bidx}>
@@ -96,12 +96,12 @@ export default function ServiceNow({ hideHero = false }) {
         </div>
       </section>
 
-      {/* Lifecycle Section (Dark Block) */}
+      {/* Lifecycle Section */}
       <section className="section section-dark-block">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
             <span className="section-tag">Methodology</span>
-            <h2 className="section-title">Implementation Lifecycle</h2>
+            <h2 className="section-title">Development Lifecycle</h2>
           </div>
 
           <div className="lifecycle-grid">
@@ -117,35 +117,32 @@ export default function ServiceNow({ hideHero = false }) {
         </div>
       </section>
 
-      {/* Direct Health Check CTA (White Block) */}
+      {/* Audit Request Form */}
       <section className="section section-white">
         <div className="container health-check-container">
           <div className="grid-2 align-center">
-            
-            {/* Info */}
             <div>
-              <span className="section-tag">Assessment</span>
-              <h2 className="about-section-heading">Book a Free ServiceNow Health Check</h2>
+              <span className="section-tag">Performance</span>
+              <h2 className="about-section-heading">Book a Free PageSpeed & W3C Audit</h2>
               <p className="health-check-text" style={{ color: 'var(--color-text-secondary)', marginTop: '20px', marginBottom: '24px', fontSize: '1.05rem', lineHeight: '1.6' }}>
-                Is your CMDB accurate? Are your users complaining about slow portal loading? Request a free, 1-hour assessment with a certified ServiceNow System Architect. We will analyze your system logs, configuration scripts, and upgrade health to deliver a recommendations dashboard.
+                Is your site loading slowly on mobile devices? Are you losing potential signups due to bad Core Web Vitals scores? Schedule a free analysis of your application bundles, DOM size, and accessibility index.
               </p>
               <ul className="health-check-list" style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <li style={{ display: 'flex', gap: '10px', fontSize: '0.95rem', color: 'var(--color-text-primary)' }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-blue)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><polyline points="20 6 9 17 4 12" /></svg>
-                  <span>Evaluate CMDB and Discovery schedule health</span>
+                  <span>Evaluate bundle size, tree-shaking, and code split areas</span>
                 </li>
                 <li style={{ display: 'flex', gap: '10px', fontSize: '0.95rem', color: 'var(--color-text-primary)' }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-blue)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><polyline points="20 6 9 17 4 12" /></svg>
-                  <span>Check update set overrides and custom client script warnings</span>
+                  <span>Analyze contrast issues and W3C accessibility compliance</span>
                 </li>
                 <li style={{ display: 'flex', gap: '10px', fontSize: '0.95rem', color: 'var(--color-text-primary)' }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-blue)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><polyline points="20 6 9 17 4 12" /></svg>
-                  <span>Analyze licensing and platform optimization options</span>
+                  <span>Deliver diagnostic report and optimization actions</span>
                 </li>
               </ul>
             </div>
 
-            {/* Simple Inline Form */}
             <div className="health-form-box">
               {inquirySubmitted ? (
                 <div className="form-success-message">
@@ -153,48 +150,42 @@ export default function ServiceNow({ hideHero = false }) {
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="22 4 12 14.01 9 11.01"></polyline>
                   </svg>
-                  <h3>Request Submitted!</h3>
-                  <p>A ServiceNow Architect will reach out to you within 24 business hours to schedule your evaluation.</p>
+                  <h3>Request Received!</h3>
+                  <p>A Web Performance Architect will contact you within 24 business hours to arrange the audit session.</p>
                 </div>
               ) : (
                 <form onSubmit={handleFormSubmit} className="health-form">
-                  <h3>Request Health Check</h3>
+                  <h3>Request Performance Audit</h3>
                   <div className="form-group">
                     <label htmlFor="companyName">Company Name *</label>
-                    <input type="text" id="companyName" required placeholder="e.g. Acme Corp" />
+                    <input type="text" id="companyName" required placeholder="e.g. Acme Media" />
                   </div>
                   <div className="form-group">
                     <label htmlFor="workEmail">Work Email *</label>
-                    <input type="email" id="workEmail" required placeholder="e.g. you@acme.com" />
+                    <input type="email" id="workEmail" required placeholder="e.g. build@acme.com" />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="platformState">Current ServiceNow Version</label>
-                    <select id="platformState">
-                      <option value="utah">Utah</option>
-                      <option value="washington">Washington DC</option>
-                      <option value="xanadu">Xanadu</option>
-                      <option value="earlier">Earlier / Not Sure</option>
-                    </select>
+                    <label htmlFor="websiteUrl">Website URL *</label>
+                    <input type="url" id="websiteUrl" required placeholder="https://acme.com" />
                   </div>
-                  <button type="submit" className="btn btn-primary" style={{ width: 100 + '%', marginTop: '10px' }}>
+                  <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '10px' }}>
                     Schedule Free Session
                   </button>
                 </form>
               )}
             </div>
-
           </div>
         </div>
       </section>
 
       <style>{`
-        .servicenow-badge-pill {
+        .webdev-badge-pill {
           display: inline-block;
           font-family: var(--font-heading);
           font-weight: 500;
           font-size: 0.75rem;
           color: #ffffff;
-          background-color: #81B5A2; /* ServiceNow green */
+          background-color: var(--color-blue);
           padding: 6px 14px;
           border-radius: 0px;
           text-transform: uppercase;

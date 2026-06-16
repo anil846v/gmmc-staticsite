@@ -17,7 +17,7 @@ export default function Logo({ mode = 'inline', inverse = false, className = '' 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '24px' }}>
           <span style={{ 
             fontFamily: 'var(--font-heading)', 
-            fontWeight: '700', 
+            fontWeight: '500', 
             fontSize: '2rem', 
             color: mainColor, 
             letterSpacing: '0.05em' 
@@ -43,7 +43,7 @@ export default function Logo({ mode = 'inline', inverse = false, className = '' 
 
           <span style={{ 
             fontFamily: 'var(--font-heading)', 
-            fontWeight: '700', 
+            fontWeight: '500', 
             fontSize: '2rem', 
             color: mainColor, 
             letterSpacing: '0.05em' 
@@ -62,7 +62,7 @@ export default function Logo({ mode = 'inline', inverse = false, className = '' 
         <div style={{ 
           marginTop: '12px',
           fontFamily: 'var(--font-heading)', 
-          fontWeight: '800', 
+          fontWeight: '600', 
           fontSize: '1.6rem', 
           color: mainColor, 
           letterSpacing: '0.15em'
@@ -103,7 +103,7 @@ export default function Logo({ mode = 'inline', inverse = false, className = '' 
       <div style={{ display: 'flex', flexDirection: 'column', lineHeight: '1.1' }}>
         <div style={{ 
           fontFamily: 'var(--font-heading)', 
-          fontWeight: '800', 
+          fontWeight: '600', 
           fontSize: '1.15rem', 
           color: mainColor, 
           letterSpacing: '0.05em' 
@@ -112,7 +112,7 @@ export default function Logo({ mode = 'inline', inverse = false, className = '' 
         </div>
         <div style={{ 
           fontFamily: 'var(--font-heading)', 
-          fontWeight: '700', 
+          fontWeight: '500', 
           fontSize: '0.7rem', 
           color: blueColor, 
           letterSpacing: '0.15em' 

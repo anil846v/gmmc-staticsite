@@ -1,7 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function Trainings() {
+export default function Trainings({ hideHero = false }) {
   const [registered, setRegistered] = useState(false);
+
+  useEffect(() => {
+    if (!hideHero) {
+      document.title = 'Trainings & Certifications | GMMC';
+      window.scrollTo(0, 0);
+    }
+  }, [hideHero]);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,10 +29,10 @@ export default function Trainings() {
     },
     {
       id: 'cis',
-      title: 'ServiceNow Implementation Specialist (CIS-ITSM)',
+      title: 'ServiceNow Implementation Specialist (CIS-)',
       duration: '4 Days (32 Hours)',
       format: 'Live Instructor-led (Virtual)',
-      overview: 'Advance your ServiceNow career. Learn the configuration details required to implement ITSM modules (Incident, Problem, Change, Catalog) under corporate environments.',
+      overview: 'Advance your ServiceNow career. Learn the configuration details required to implement  modules (Incident, Problem, Change, Catalog) under corporate environments.',
       outline: ['ITIL process mapping in ServiceNow', 'Advanced client scripting & business rules', 'Service Catalog schema customization', 'Platform integrations & update sets']
     },
     {
@@ -33,7 +40,7 @@ export default function Trainings() {
       title: 'ITIL 4 Foundation Certification',
       duration: '2 Days (16 Hours)',
       format: 'Virtual Live Class + Exam Voucher',
-      overview: 'Learn the international standard for IT Service Management (ITSM). Understand the Service Value System (SVS), the 4 dimensions of service management, and core ITIL practices.',
+      overview: 'Learn the international standard for IT Service Management (). Understand the Service Value System (SVS), the 4 dimensions of service management, and core ITIL practices.',
       outline: ['Core concepts of Service Management', 'The ITIL Service Value Chain activities', 'The 4 Dimensions of Service Management', '15 Key ITIL practices overview']
     }
   ];
@@ -54,15 +61,17 @@ export default function Trainings() {
   return (
     <div className="trainings-page">
       {/* Page Hero (Dark Digital Block) */}
-      <section className="subpage-hero">
-        <div className="container">
-          <span className="section-tag">Upskill</span>
-          <h1 className="subpage-title">Trainings & Certifications</h1>
-          <p className="subpage-lead">
-            Certified technical enablement programs designed for enterprise teams. Accelerate ServiceNow adoption and align operations with ITIL best practices.
-          </p>
-        </div>
-      </section>
+      {!hideHero && (
+        <section className="subpage-hero">
+          <div className="container">
+            <span className="section-tag">Upskill</span>
+            <h1 className="subpage-title">Trainings & Certifications</h1>
+            <p className="subpage-lead">
+              Certified technical enablement programs designed for enterprise teams. Accelerate ServiceNow adoption and align operations with ITIL best practices.
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Course Catalog (White Block) */}
       <section className="section section-white">
@@ -147,7 +156,7 @@ export default function Trainings() {
                     <label htmlFor="regCourse">Selected Course *</label>
                     <select id="regCourse" name="course" value={formData.course} onChange={handleInputChange}>
                       <option value="csa">ServiceNow CSA (System Admin)</option>
-                      <option value="cis">ServiceNow CIS (ITSM Specialist)</option>
+                      <option value="cis">ServiceNow CIS ( Specialist)</option>
                       <option value="itil">ITIL 4 Foundation</option>
                       <option value="corporate">Custom Corporate Group Cohort</option>
                     </select>
@@ -253,7 +262,7 @@ export default function Trainings() {
         .course-outline-list li::before {
           content: '→';
           color: var(--color-blue);
-          font-weight: 700;
+          font-weight: 500;
           position: absolute;
           left: 0;
           top: -1px;

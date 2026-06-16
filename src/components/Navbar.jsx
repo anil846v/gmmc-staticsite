@@ -6,6 +6,15 @@ export default function Navbar({ currentTab, setCurrentTab }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null); // 'services', 'solutions', 'industries', 'insights', 'careers', 'about' or null
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) {
+      setMobileServicesOpen(false);
+      setMobileSolutionsOpen(false);
+    }
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,11 +29,20 @@ export default function Navbar({ currentTab, setCurrentTab }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (tabId) => {
+  const handleNavClick = (tabId, elementId) => {
     setCurrentTab(tabId);
     setMobileMenuOpen(false);
     setActiveMenu(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (elementId) {
+      setTimeout(() => {
+        const el = document.querySelector(`.row-bg-${elementId}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 150);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const handleMenuHover = (menuId) => {
@@ -38,7 +56,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
       style={{ position: 'fixed', top: 0, left: 0, width: 100 + '%', zIndex: 1000 }}
     >
       <nav className={`navbar ${scrolled ? 'navbar-scrolled' : 'navbar-top'}`}>
-        <div className="container nav-container">
+        <div className="nav-container">
           
           {/* Stacked Large Logo Image */}
           <div onClick={() => handleNavClick('home')} className="nav-logo-box">
@@ -47,15 +65,6 @@ export default function Navbar({ currentTab, setCurrentTab }) {
 
           {/* Screenshot-Matched Navigation Links */}
           <ul className="nav-links">
-            <li>
-              <button 
-                onClick={() => handleNavClick('home')} 
-                className={`nav-link-btn ${currentTab === 'home' && !activeMenu ? 'active' : ''}`}
-              >
-                Home
-              </button>
-            </li>
-            
             <li>
               <button 
                 onClick={() => handleNavClick('about')} 
@@ -67,8 +76,8 @@ export default function Navbar({ currentTab, setCurrentTab }) {
 
             <li onMouseEnter={() => handleMenuHover('services')}>
               <button 
-                onClick={() => handleNavClick('servicenow')} 
-                className={`nav-link-btn ${activeMenu === 'services' ? 'hover-active' : ''} ${currentTab === 'servicenow' || currentTab === 'bpo' ? 'active' : ''}`}
+                onClick={() => handleNavClick('services')} 
+                className={`nav-link-btn ${activeMenu === 'services' ? 'hover-active' : ''} ${['services', 'web-app-dev', 'erp-crm', 'mobile-app-dev', 'it-bpo', 'digital-marketing', 'id-card-printing', 'trainings'].includes(currentTab) ? 'active' : ''}`}
               >
                 Services
                 <span className="chevron-down"></span>
@@ -77,23 +86,23 @@ export default function Navbar({ currentTab, setCurrentTab }) {
 
             <li onMouseEnter={() => handleMenuHover('solutions')}>
               <button 
-                onClick={() => handleNavClick('servicenow')} 
-                className={`nav-link-btn ${activeMenu === 'solutions' ? 'hover-active' : ''}`}
+                onClick={() => handleNavClick('solutions')} 
+                className={`nav-link-btn ${activeMenu === 'solutions' ? 'hover-active' : ''} ${currentTab === 'solutions' ? 'active' : ''}`}
               >
                 Solutions
                 <span className="chevron-down"></span>
               </button>
             </li>
             
-            <li onMouseEnter={() => handleMenuHover('industries')}>
+            <li>
               <button 
-                onClick={() => handleNavClick('home')} 
-                className={`nav-link-btn ${activeMenu === 'industries' ? 'hover-active' : ''}`}
+                onClick={() => handleNavClick('customers')} 
+                className={`nav-link-btn ${currentTab === 'customers' ? 'active' : ''}`}
               >
-                Industries
-                <span className="chevron-down"></span>
+                Customers
               </button>
             </li>
+            
             <li>
               <button 
                 onClick={() => handleNavClick('contact')} 
@@ -134,7 +143,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
       {/* Render active Mega Menu (Aligned to new 110px height) */}
       {activeMenu && (
         <MegaMenu 
-          menuId={activeMenu === 'solutions' ? 'services' : activeMenu} 
+          menuId={activeMenu} 
           onNavigate={handleNavClick} 
           onClose={() => setActiveMenu(null)} 
         />
@@ -144,35 +153,117 @@ export default function Navbar({ currentTab, setCurrentTab }) {
       <div className={`mobile-nav-drawer ${mobileMenuOpen ? 'open' : ''}`}>
         <ul className="mobile-nav-links">
           <li>
-            <button onClick={() => handleNavClick('home')} className={currentTab === 'home' ? 'active' : ''}>
-              Home
-            </button>
-          </li>
-          <li>
             <button onClick={() => handleNavClick('about')} className={currentTab === 'about' ? 'active' : ''}>
               About Us
             </button>
           </li>
+          
+          {/* Collapsible Services Accordion */}
           <li>
-            <button onClick={() => handleNavClick('servicenow')} className={currentTab === 'servicenow' ? 'active' : ''}>
-              ServiceNow Consulting
+            <button 
+              onClick={() => setMobileServicesOpen(!mobileServicesOpen)} 
+              className={`mobile-accordion-header ${['services', 'servicenow', 'bpo', 'trainings'].includes(currentTab) ? 'active' : ''}`}
+            >
+              Services
+              <span className={`mobile-chevron ${mobileServicesOpen ? 'expanded' : ''}`}></span>
             </button>
+            <ul className={`mobile-submenu ${mobileServicesOpen ? 'open' : ''}`}>
+              <li>
+                <button onClick={() => handleNavClick('services')} className={currentTab === 'services' ? 'active' : ''}>
+                  All Services Overview
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavClick('web-app-dev')} className={currentTab === 'web-app-dev' ? 'active' : ''}>
+                  Web sites & App Dev
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavClick('erp-crm')} className={currentTab === 'erp-crm' ? 'active' : ''}>
+                  ERP & CRM Solutions
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavClick('mobile-app-dev')} className={currentTab === 'mobile-app-dev' ? 'active' : ''}>
+                  Mobile App Dev
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavClick('it-bpo')} className={currentTab === 'it-bpo' ? 'active' : ''}>
+                  IT Consulting & BPO
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavClick('digital-marketing')} className={currentTab === 'digital-marketing' ? 'active' : ''}>
+                  Digital Marketing
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavClick('id-card-printing')} className={currentTab === 'id-card-printing' ? 'active' : ''}>
+                  ID Card Printing
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavClick('trainings')} className={currentTab === 'trainings' ? 'active' : ''}>
+                  Trainings & Certifications
+                </button>
+              </li>
+            </ul>
           </li>
+
+          {/* Collapsible Solutions Accordion */}
           <li>
-            <button onClick={() => handleNavClick('bpo')} className={currentTab === 'bpo' ? 'active' : ''}>
-              BPO Services
+            <button 
+              onClick={() => setMobileSolutionsOpen(!mobileSolutionsOpen)} 
+              className={`mobile-accordion-header ${currentTab === 'solutions' ? 'active' : ''}`}
+            >
+              Solutions
+              <span className={`mobile-chevron ${mobileSolutionsOpen ? 'expanded' : ''}`}></span>
             </button>
+            <ul className={`mobile-submenu ${mobileSolutionsOpen ? 'open' : ''}`}>
+              <li>
+                <button onClick={() => handleNavClick('solutions')} className={currentTab === 'solutions' ? 'active' : ''}>
+                  All Solutions Overview
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavClick('web-app-dev')} className={currentTab === 'web-app-dev' ? 'active' : ''}>
+                  SaaS Development
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavClick('erp-crm')} className={currentTab === 'erp-crm' ? 'active' : ''}>
+                  Enterprise ERP Solutions
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavClick('erp-crm')} className={currentTab === 'erp-crm' ? 'active' : ''}>
+                  Advanced CRM Solutions
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavClick('web-app-dev')} className={currentTab === 'web-app-dev' ? 'active' : ''}>
+                  Professional Web Dev
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavClick('it-bpo')} className={currentTab === 'it-bpo' ? 'active' : ''}>
+                  Premier IT Consulting
+                </button>
+              </li>
+            </ul>
           </li>
+
           <li>
-            <button onClick={() => handleNavClick('trainings')} className={currentTab === 'trainings' ? 'active' : ''}>
-              Trainings & Certifications
+            <button onClick={() => handleNavClick('customers')} className={currentTab === 'customers' ? 'active' : ''}>
+              Customers
             </button>
           </li>
           <li>
             <button 
               onClick={() => handleNavClick('contact')} 
               className="btn btn-primary"
-              style={{ width: 100 + '%', marginTop: '20px' }}
+              style={{ width: '100%', marginTop: '20px' }}
             >
               Schedule a Consultation
             </button>
@@ -205,8 +296,11 @@ export default function Navbar({ currentTab, setCurrentTab }) {
         .nav-container {
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: flex-start;
           width: 100%;
+          padding-left: 40px;
+          padding-right: 40px;
+          gap: 0;
         }
 
         .nav-logo-box {
@@ -234,6 +328,12 @@ export default function Navbar({ currentTab, setCurrentTab }) {
           list-style: none;
           gap: 6px;
           align-items: center;
+          margin-left: auto;
+        }
+
+        .nav-cta {
+          margin-left: 16px;
+          flex-shrink: 0;
         }
 
         .nav-link-btn {
@@ -286,21 +386,23 @@ export default function Navbar({ currentTab, setCurrentTab }) {
         }
 
         .nav-contact-btn {
-          padding: 12px 24px;
-          font-size: 0.9rem;
-          font-weight: 700;
-          background-color: var(--color-blue);
-          color: #ffffff;
+          padding: 9px 16px;
+          padding-left: 10px;
+          font-size: 0.78rem;
+          font-weight: 500;
+          background-color: #ffffff;
+          color: #002140;
           border: none;
           display: flex;
           align-items: center;
-          gap: 8px;
-          box-shadow: 0 4px 14px rgba(30, 136, 229, 0.25);
+          gap: 10px;
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+          white-space: nowrap;
         }
 
         .nav-contact-btn:hover {
-          background-color: var(--color-blue-hover);
-          color: #ffffff;
+          background-color: #f0f4f8;
+          color: #197edc;
         }
 
         .cta-arrow {
@@ -383,6 +485,57 @@ export default function Navbar({ currentTab, setCurrentTab }) {
           color: var(--color-blue);
         }
 
+        .mobile-accordion-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+        }
+
+        .mobile-chevron {
+          width: 6px;
+          height: 6px;
+          border-right: 1.8px solid var(--color-text-primary);
+          border-bottom: 1.8px solid var(--color-text-primary);
+          transform: rotate(45deg);
+          transition: transform 0.3s ease;
+          margin-right: 6px;
+        }
+
+        .mobile-chevron.expanded {
+          transform: rotate(-135deg);
+        }
+
+        .mobile-submenu {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          max-height: 0;
+          opacity: 0;
+          overflow: hidden;
+          transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mobile-submenu.open {
+          max-height: 320px;
+          opacity: 1;
+          margin-top: 6px;
+          margin-bottom: 6px;
+        }
+
+        .mobile-submenu button {
+          padding: 6px 0 6px 16px !important;
+          font-size: 0.92rem !important;
+          font-weight: 500 !important;
+          color: var(--color-text-secondary) !important;
+          border-left: 1.5px solid var(--color-border) !important;
+        }
+
+        .mobile-submenu button.active {
+          color: var(--color-blue) !important;
+          border-left-color: var(--color-blue) !important;
+        }
+
         @media (max-width: 1024px) {
           .navbar {
             height: 80px;
@@ -395,6 +548,10 @@ export default function Navbar({ currentTab, setCurrentTab }) {
           }
           .burger-menu {
             display: flex;
+          }
+          .nav-container {
+            padding-left: 24px;
+            padding-right: 24px;
           }
         }
       `}</style>

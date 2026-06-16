@@ -11,7 +11,7 @@ export default function Home({ setCurrentTab }) {
       <Hero setCurrentTab={setCurrentTab} />
       <ServicesGrid setCurrentTab={setCurrentTab} />
       <WhyPartner />
-      <DigitalSolutions />
+      <DigitalSolutions limit={3} setCurrentTab={setCurrentTab} />
       <UpskillTeam setCurrentTab={setCurrentTab} />
       <CTASection setCurrentTab={setCurrentTab} />
     </div>

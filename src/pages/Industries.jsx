@@ -24,7 +24,7 @@ export default function IndustriesPage() {
     {
       title: 'Public Sector & Civic Services',
       tag: 'CIVIC',
-      desc: 'Deliver modern civic platforms governed under ITIL v4 standards. We build public service portal catalogs and automate citizen request routing to help civic organizations coordinate operations.',
+      desc: 'Deliver modern civic platforms governed under ITIL   standards. We build public service portal catalogs and automate citizen request routing to help civic organizations coordinate operations.',
       image: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=600',
       bullets: ['ITIL-governed civic service workflows', 'Secure document indexing directories', 'Citizen request portal automation']
     }
@@ -107,7 +107,7 @@ export default function IndustriesPage() {
 
         .industry-bullets-header {
           font-family: var(--font-heading);
-          font-weight: 700;
+          font-weight: 500;
           font-size: 0.85rem;
           text-transform: uppercase;
           letter-spacing: 0.05em;
@@ -130,7 +130,7 @@ export default function IndustriesPage() {
 
         .bullet-tick {
           color: var(--color-blue);
-          font-weight: 900;
+          font-weight: 600;
         }
 
         /* Image frame styling */
